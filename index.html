@@ -8,63 +8,122 @@
     <link rel="stylesheet" 
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <style>
-        body, .jumbotron { padding: 30px; }
+        body, .jumbotron { padding: 30px;}
+        html {
+            overflow-y: scroll;
+        }
         body {
-            background: #efefee;
+            background: #EFEFEF;
         }
-        .content {
-            background: #fff;
-            padding: 50px;
-            font-size: 19px;
-            line-height: 1.5;
-            min-height: 3000px;
+        ul {
+            margin-bottom: 0;
         }
-        .scroll-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 20px;
-            background: #1ce;
-            transition: 0.1s cubic-bezier(0.075, 0.82, 0.165, 1);
+        .accordion {
+            background: #EFEFEF;
+            border-radius: 5px;
+            padding: 30px;
+        }
+
+        .question {
+            border-top: 1px solid #EEE;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+        .question h2 {
+            font-size: 20px;
+            margin: 0%;
+            color: #C00C00;
+        }
+        .question .glyphicon {
+            position: absolute;
+            right: 20px;
+            top: 0%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: #C00C00;
+        }
+
+        .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) all;
+        }
+        .answer p {
+            padding: 20px;
+        }
+
+        .accordion li.open .question .glyphicon {
+            transform: rotate(180deg);
+        }
+
+        .accordion li.open .answer {
+            max-height: 150px;
         }
     </style>
 </head>
 <body>
-    <div class="scroll-line"></div>
-
     <div class="container"></div>
-    <div class="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, delectus quibusdam consequuntur blanditiis facilis sunt, earum ut hic recusandae magnam voluptates in assumenda facere? Accusamus, culpa. Nemo quidem eveniet delectus?
-    </div>
+
+        <div class="accordion">
+            <ul class="list-unstyled">
+                <li class="open">
+                    <div class="question">
+                        <h2>Will i be rich?</h2>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </div>
+                    <div class="answer">
+                        <p>Absolutely! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam laborum ex sit sed quas delectus illum debitis numquam accusantium, dolorum quaerat animi explicabo eius obcaecati tempora ut exercitationem tenetur rerum!</p>
+                    <span class="pf pf-cb"></span>
+                    </div>
+                </li>
+                <li>
+                    <div class="question">
+                        <h2>Whats for dinner?</h2>
+                        <span class="glyphicon-chevron-down"></span>
+                    </div>
+                    <div class="answer">
+                        <p>Whats for dinner?! Lorem ipsum dolor sit amet, 
+                            consectetur adipisicing elit. Quisquam laborum ex sit sed quas delectus illum debitis numquam accusantium, 
+                            dolorum quaerat animi explicabo eius obcaecati tempora ut exercitationem tenetur rerum!</p>
+                    <span class="pf pf-cb"></span>
+                    </div>
+                </li>
+                <li>
+                    <div class="question">
+                        <h2>Is javascript awesome?
+                        </h2>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </div>
+                    <div class="answer">
+                        <p>Yes! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam laborum ex sit sed quas delectus illum debitis numquam accusantium, dolorum quaerat animi explicabo eius obcaecati tempora ut exercitationem tenetur rerum!</p>
+                    <span class="pf pf-cb"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
     <script>
-        const scrollLine = document.querySelector('.scroll-line');
+        const accordion = document.querySelector('.accordion');
+        const items = accordion.querySelectorAll('li');
+        const questions = accordion.querySelectorAll('.question');
+      
+        function toggleAccordion() {
+            const thisItem = this.parentNode;
 
-        function fillScrollLine() {
-            const windowHeight = window.innerHeight;
-            const fullHeight = document.body.clientHeight;
-            const scrolled = window.scrollY;
-            const percentScrolled = (scrolled / (fullHeight - windowHeight)) * 100;
-
-            scrollLine.style.width = `${percentScrolled}%`;
+            items.forEach(item => {
+                if (thisItem == item) {
+                    thisItem.classList.toggle('open');
+                    return;
+                }
+                
+                item.classList.remove('open')
+            });
         }
-
-        window.addEventListener('scroll', debounce(fillScrollLine));
-
-         function debounce(func, wait = 20, immediate) {
-             var timeout;
-             return function() {
-                 var context = this, args = arguments;
-                 var later = function() {
-                     timeout = null;
-                     if (!immediate) func.apply(context, args);
-                 };
-                 var callNow = immediate && !timeout;
-                 clearTimeout(timeout);
-                 timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-            };
-        }
-    </script>  
+        
+        questions.forEach(question => question.addEventListener('click', toggleAccordion));
+    </script>
+    
 </body>
 </html>
